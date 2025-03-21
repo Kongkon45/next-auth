@@ -1,10 +1,9 @@
 import { Button } from "@/components/ui/button"
-import { requireAuth } from "@/lib/auth"
-import LogoutButton from "@/components/logout-button"
+import getCurrentUser from "../lib/session"
+import LogoutButton from "../components/logout-button";
 
 export default async function DashboardPage() {
-  const user = await requireAuth()
-
+  const user = await getCurrentUser();
   return (
     <div className="container py-12">
       <div className="flex justify-between items-center mb-8">
@@ -14,9 +13,9 @@ export default async function DashboardPage() {
 
       <div className="grid gap-6 md:grid-cols-2">
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-4">Welcome, {user.name}!</h2>
+          <h2 className="text-xl font-semibold mb-4">Welcome, {user?.name}!</h2>
           <p className="text-muted-foreground">You are now logged in to your account.</p>
-          <p className="text-muted-foreground mt-2">Email: {user.email}</p>
+          <p className="text-muted-foreground mt-2">Email: {user?.email}</p>
         </div>
 
         <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">

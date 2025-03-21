@@ -27,38 +27,35 @@ export default function AuthForm({ mode }: AuthFormProps) {
     const formData = new FormData(e.currentTarget)
     const email = formData.get("email") as string
     const password = formData.get("password") as string
+    const password_confirmation = formData.get("password_confirmation") as string
 
     if (mode === "register") {
       const name = formData.get("name") as string
 
       try {
+        const payload = { name, email, password, password_confirmation }
+        console.log(payload)
         // Register the user with your backend
+
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/register`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ name, email, password }),
+          body: JSON.stringify(payload),
         })
-
-        const data = await response.json()
 
         if (!response.ok) {
-          throw new Error(data.message || "Registration failed")
+          throw new Error("Registration failed")
         }
 
-        // After registration, sign in
-        const result = await signIn("credentials", {
-          email,
-          password,
-          redirect: false,
-        })
-
-        if (result?.error) {
-          throw new Error(result.error)
+        const data = await response.json()
+        console.log(data)
+        if(data){
+          return router.push("/login")
         }
 
-        router.push("/dashboard")
+        
       } catch (error) {
         setError(error instanceof Error ? error.message : "Something went wrong")
       } finally {
@@ -77,7 +74,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
           throw new Error(result.error)
         }
 
-        router.push("/dashboard")
+        return router.push("/dashboard")
       } catch (error) {
         setError(error instanceof Error ? error.message : "Invalid credentials")
       } finally {
@@ -120,6 +117,10 @@ export default function AuthForm({ mode }: AuthFormProps) {
         <div className="space-y-2">
           <Label htmlFor="password">Password</Label>
           <Input id="password" name="password" type="password" required disabled={isLoading} />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor="password_confirmation">Password Confirmation</Label>
+          <Input id="password_confirmation" name="password_confirmation" type="password" required disabled={isLoading} />
         </div>
 
         <Button type="submit" className="w-full" disabled={isLoading}>

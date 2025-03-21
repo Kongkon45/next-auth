@@ -1,17 +1,17 @@
 import React from 'react';
-import { getSession } from './lib/auth';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import getCurrentUser from './lib/session';
 
 const Page = async () => {
-  const session = await getSession()
+  const user = await getCurrentUser();
   return (
     <div>
       home page
-      {session ? (
+      {user ? (
         <div className="space-y-4">
           <p className="text-lg">
-            You are signed in as <strong>{session?.user?.name}</strong>
+            You are signed in as <strong>{user?.name}</strong>
           </p>
           <Button asChild>
             <Link href="/dashboard">Go to Dashboard</Link>

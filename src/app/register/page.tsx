@@ -1,13 +1,13 @@
 import { redirect } from "next/navigation"
 import Link from "next/link"
-import { getSession } from "../lib/auth"
 import AuthForm from "../components/auth-form"
+import getCurrentUser from "../lib/session";
 
 export default async function RegisterPage() {
-  const session = await getSession()
+  const user = await getCurrentUser();
 
   // Redirect to dashboard if already logged in
-  if (session) {
+  if (user) {
     redirect("/dashboard")
   }
 

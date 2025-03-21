@@ -1,15 +1,14 @@
-import { redirect } from "next/navigation"
+// import { redirect } from "next/navigation"
 import Link from "next/link"
 import AuthForm from "../components/auth-form"
-import { getSession } from "../lib/auth"
 
 export default async function LoginPage() {
-  const session = await getSession()
+  // const session = await getSession()
 
   // Redirect to dashboard if already logged in
-  if (session) {
-    redirect("/dashboard")
-  }
+  // if (session) {
+  //   redirect("/dashboard")
+  // }
 
   return (
     <div className="container flex flex-col items-center justify-center min-h-screen py-12">

@@ -1,10 +1,10 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import LogoutButton from "./logout-button"
-import { getSession } from "../lib/auth"
+import getCurrentUser from "../lib/session";
 
 export default async function Navbar() {
-  const session = await getSession()
+  const user = await getCurrentUser();
 
   return (
     <header className="border-b">
@@ -17,7 +17,7 @@ export default async function Navbar() {
             <Link href="/" className="text-sm font-medium transition-colors hover:text-primary">
               Home
             </Link>
-            {session && (
+            {user && (
               <Link href="/dashboard" className="text-sm font-medium transition-colors hover:text-primary">
                 Dashboard
               </Link>
@@ -26,9 +26,9 @@ export default async function Navbar() {
         </div>
 
         <div className="flex items-center gap-4">
-          {session ? (
+          {user ? (
             <div className="flex items-center gap-4">
-              <span className="text-sm hidden md:inline-block">Hello, {session?.user?.name}</span>
+              <span className="text-sm hidden md:inline-block">Hello, {user?.name}</span>
               <LogoutButton />
             </div>
           ) : (
